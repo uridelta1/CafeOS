@@ -1,0 +1,3 @@
+import mongoose from 'mongoose';
+const settingsSchema=new mongoose.Schema({key:{type:String,unique:true,default:'main'},cafeName:{type:String,default:'Sunday Coffee'},address:{type:String,default:'18 Market Lane, Pune'},phone:{type:String,default:'+91 98765 43210'},email:{type:String,default:'hello@sundaycoffee.in'},currency:{type:String,default:'INR'},taxRate:{type:Number,default:5},serviceCharge:{type:Number,default:0},receiptFooter:{type:String,default:'Thanks for stopping by. See you soon!'},lowStockThreshold:{type:Number,default:8},openTime:{type:String,default:'08:00'},closeTime:{type:String,default:'22:00'}},{timestamps:true});
+export default mongoose.model('Settings',settingsSchema);

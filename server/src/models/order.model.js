@@ -1,0 +1,5 @@
+import mongoose from 'mongoose';
+const itemSchema = new mongoose.Schema({productId:{type:mongoose.Schema.Types.ObjectId,ref:'Product'},name:{type:String,required:true},quantity:{type:Number,required:true,min:1},price:{type:Number,required:true,min:0}},{_id:false});
+const orderSchema = new mongoose.Schema({orderNumber:{type:String,required:true,unique:true},items:[itemSchema],subtotal:{type:Number,required:true},discount:{type:Number,default:0},serviceCharge:{type:Number,default:0},taxRate:{type:Number,default:5},tax:{type:Number,required:true},total:{type:Number,required:true},orderType:{type:String,enum:['Dine in','Takeaway','Delivery'],default:'Dine in'},tableNumber:{type:String,default:''},paymentMethod:{type:String,enum:['Cash','Card','UPI'],default:'UPI'},paymentStatus:{type:String,enum:['Paid','Pending','Refunded'],default:'Paid'},status:{type:String,enum:['New','Preparing','Ready','Completed','Cancelled'],default:'New'},createdBy:{type:String,default:'Store team'},notes:{type:String,default:''}},{timestamps:true});
+orderSchema.index({createdAt:-1,status:1});
+export default mongoose.model('Order',orderSchema);

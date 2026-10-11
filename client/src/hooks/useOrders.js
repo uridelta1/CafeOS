@@ -1,0 +1,2 @@
+import { useCallback,useEffect,useState } from 'react';import { ordersApi } from '../api/ordersApi.js';
+export function useOrders(){const[orders,setOrders]=useState([]),[loading,setLoading]=useState(true),[error,setError]=useState('');const refresh=useCallback(async()=>{setLoading(true);try{setOrders((await ordersApi.list()).data);setError('')}catch(e){setError(e?.response?.data?.message||'Could not load orders')}finally{setLoading(false)}},[]);useEffect(()=>{refresh()},[refresh]);return{orders,loading,error,refresh}}

@@ -1,0 +1,4 @@
+import bcrypt from 'bcryptjs';import jwt from 'jsonwebtoken';import User from '../models/auth.model.js';
+export async function register(data){const exists=await User.findOne({email:data.email});if(exists)throw Object.assign(new Error('Email already registered'),{status:409});const user=await User.create({name:data.name,email:data.email,passwordHash:await bcrypt.hash(data.password,12),role:data.role||'cashier'});return issue(user)}
+export async function login(data){const user=await User.findOne({email:data.email,active:true});if(!user||!await bcrypt.compare(data.password,user.passwordHash))throw Object.assign(new Error('Invalid email or password'),{status:401});return issue(user)}
+function issue(user){const token=jwt.sign({sub:String(user._id),role:user.role},process.env.JWT_SECRET||'dev-only-change-this-secret',{expiresIn:'12h'});return {token,user:{id:user._id,name:user.name,email:user.email,role:user.role}}}

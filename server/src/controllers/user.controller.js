@@ -1,0 +1,1 @@
+import * as service from '../services/user.service.js';export async function list(req,res,next){try{res.json(await service.listUsers())}catch(e){next(e)}}export async function create(req,res,next){try{if(!req.body.name||!req.body.email)return res.status(400).json({message:'Name and email are required'});res.status(201).json(await service.createUser(req.body))}catch(e){next(e)}}
